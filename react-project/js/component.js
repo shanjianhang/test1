@@ -1,0 +1,10 @@
+ReactDOM.render(
+	React.DOM.h1(
+		{
+			id:"head",
+			dataIndex:"head"
+		},
+		"生活快乐"
+		),
+	document.querySelector(".appMain")
+	)
