@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>静态资源文件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  </head>
+  <body>
+    <div>
+      <div>当前修改为第<input disabled="true" type="text" name="index" style="width:40px" />行数据</div>
+      <input type="text" name="name" />
+      <input type="text" name="age" />
+      <input type="text" name="sex" />
+      <input type="text" name="classid" />
+    </div>
+    <div>
+      <button id="confirm" onclick="returnMessage()">确定</button>
+    </div>
+    <script type="text/javascript">
+      window.onload=function(){
+        var obj=window.dialogArguments;
+        document.all['name'].value=obj.name;
+        document.all['age'].value=obj.age;
+        document.all['sex'].value=obj.sex;
+        document.all['classid'].value=obj.classid;
+        document.all['index'].value=obj.index;
+      }
+      function returnMessage(){
+        window.returnValue={
+          name:document.all['name'].value,
+          age:document.all['age'].value,
+          sex:document.all['sex'].value,
+          classid:document.all['classid'].value,
+          index:window.dialogArguments.index
+        };
+        window.close();
+      }
+    </script>
+  </body>
+</html>

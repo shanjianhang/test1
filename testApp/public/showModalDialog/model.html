@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>静态资源文件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  </head>
+  <body>
+    <div>
+      我是模态框页面
+    </div>
+    <script type="text/javascript">
+      function testMessage(data){
+        if(data.name){
+          window.returnValue=data.name+"的版本号是"+data.version;
+        }
+      }
+      testMessage(window.dialogArguments);
+    </script>
+  </body>
+</html>

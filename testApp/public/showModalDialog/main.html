@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>静态资源文件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  </head>
+  <body>
+    <button onclick="javascript:openModel(window.obj)">点击我打开模态框</button>
+    <textarea name="result"></textarea>
+    <script type="text/javascript">
+      var obj={
+        name:"shan",
+        version: 1.0
+      };
+      function openModel(data){
+        var vReturnValue = window.showModalDialog("/showModalDialog/model.html",obj,"dialogWidth=200px;dialogHeight=100px");
+        window.result.value=vReturnValue;
+      }
+    </script>
+  </body>
+</html>

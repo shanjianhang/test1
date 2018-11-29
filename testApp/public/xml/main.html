@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>静态资源文件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="utf-8" >
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style type="text/css">
+      table tr,table td{
+        text-align: center;
+      }
+      #listBox{
+        margin-top: 20px;
+      }
+      #history{
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="outPut">点击我进行数据填充</button>
+    <div id="listBox">
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <thead>
+          <th>姓名</th>
+          <th>年龄</th>
+          <th>性别</th>
+          <th>编号</th>
+        </thead>
+        <tbody id="content"></tbody>
+      </table>
+    </div>
+    <!-- <div id="history"></div> -->
+    <script type="text/javascript">
+      document.getElementById("outPut").onclick=function(e){
+        var targetDom=document.getElementById("content");
+        outPut('/xml/data.xml',targetDom)
+      }
+      document.getElementById("content").onclick=function(e){
+        changeData(e);
+      }
+      var Switch=true;
+      function outPut(url,target){
+        if(Switch){
+          var xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+          xmlDoc.async="false";
+          xmlDoc.load(url);
+          for(var i=0; i<xmlDoc.getElementsByTagName("stu").length; i++){
+            var _thisStu=xmlDoc.getElementsByTagName("stu")[i];
+            var tr=document.createElement("tr");
+            tr.indexTr=i;
+            for(var j=0; j<_thisStu.childNodes.length; j++){
+              var td=document.createElement("td");
+              td.innerHTML=_thisStu.childNodes[j].text;
+              tr.appendChild(td);
+            }
+            target.appendChild(tr);
+          }
+          Switch=false;
+        }
+      }
+      function changeData(e){
+        var e=e || window.event;
+        window.event?e.cancelBubble=true:e.stopPropagation();
+        var target=e.target?e.target:e.srcElement;
+        if(target.tagName=="TD"){
+          var trDom=target.parentElement;
+          var oldObj={
+            name:trDom.childNodes[0].innerHTML,
+            age:trDom.childNodes[1].innerHTML,
+            sex:trDom.childNodes[2].innerHTML,
+            classid:trDom.childNodes[3].innerHTML,
+            index:trDom.indexTr
+          };
+          var _value=target.innerHTML;
+          var vReturnValue = window.showModalDialog("/xml/model.html",oldObj,"dialogWidth=400px;dialogHeight=200px;center=true;help=true;resizable=yes");
+          if(!document.getElementById("history")){
+            var div=document.createElement("div");
+            div.id="history";
+            document.body.appendChild(div);
+          }
+          writeHistory(oldObj,vReturnValue);
+        }
+      }
+      function writeHistory(oldObj,newObj){
+        var html="";
+        var switchObj=oldObj['name']!==newObj['name'] || oldObj['age']!==newObj['age'] || oldObj['sex']!==newObj['sex'] || oldObj['classid']!==newObj['classid'];
+        if(switchObj){
+          var _html=document.createElement("li");
+          html+="第"+newObj['index']+"行数据被修改，修改内容为：";
+          if(oldObj['name']!==newObj['name']){
+            html+="姓名被修改为"+newObj['name']+' ';
+          }
+          if(oldObj['age']!==newObj['age']){
+            html+="年龄被修改为"+newObj['age']+' ';
+          }
+          if(oldObj['sex']!==newObj['sex']){
+            html+="年龄被修改为"+newObj['sex']+' ';
+          }
+          if(oldObj['classid']!==newObj['classid']){
+            html+="编号被修改为"+newObj['classid']+'。';
+          }
+          _html.innerHTML=html;
+          document.getElementById("history").appendChild(_html);
+        }
+      }
+    </script>
+  </body>
+</html>

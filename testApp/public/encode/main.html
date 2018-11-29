@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>静态资源文件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta charset="gb2312" >
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <style type="text/css">
+      html,body{
+        margin: 20px;
+        padding: 0px;
+      }
+      table tr,table td{
+        text-align: center;
+      }
+      #listBox{
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="outPut">点击我进行数据填充</button>
+    <div id="listBox">
+      <table width="100%" cellspacing="0" cellpadding="0" border="1">
+        <thead>
+          <th width="200">编号</th>
+          <th>主题</th>
+          <th>经办人</th>
+          <th>日期</th>
+        </thead>
+        <tbody id="content"></tbody>
+      </table>
+    </div>
+    <script type="text/javascript">
+      var xmlHttp=new XMLHttpRequest();
+      xmlHttp.onreadystatechange=function(){
+        if(xmlHttp.readyState==4 && xmlHttp.status==200){
+          var dataObj=JSON.parse(xmlHttp.responseText);
+          for(var i=0; i<dataObj.data.length; i++){
+            var tr=document.createElement("tr");
+            for(var item in dataObj.data[i]){
+              var td=document.createElement("td");
+              td.textContent=dataObj.data[i][item];
+              tr.appendChild(td);
+            }
+            document.getElementById("content").appendChild(tr);
+          }
+       }
+      }
+      xmlHttp.open("GET","/EventPage/data.json",true);
+      xmlHttp.send(null);
+    </script>
+    <script type="text/javascript" src="/EventPage/event.js"></script>
+  </body>
+</html>
